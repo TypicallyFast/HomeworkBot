@@ -22,8 +22,9 @@ public class HomeworkBot extends ListenerAdapter  {
 
     public static void main(String[] args) throws LoginException {
 
+
         JDA jda = JDABuilder.createDefault
-                        ("MTE5MDI2Mjc5NTA5OTQzOTE2NA.GRp6FR.uqGWBfpx6JWN5SvWeT5-rkYkOSwYJ1aoq6s8NE")
+                        (Passwords.token1)
 
                 .setActivity(Activity.listening("เลี้ยงไข้ By Bokylion (เพลงโปรดผมเอง)"))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES,
@@ -34,7 +35,7 @@ public class HomeworkBot extends ListenerAdapter  {
                 .setChunkingFilter(ChunkingFilter.ALL)
                 .enableCache(CacheFlag.ONLINE_STATUS)
 
-                // Register listeners, basically triggers when each class is called into usage
+                // Register listeners, basically triggers when each class is called into usage สำคัญมาก
                 .addEventListeners(new ReadyEventListener(), new MessageEventListener(),
                         new InteractionEventListener(),
                         new HelloListener(), new Hello2Listener(), new AddHomework(),

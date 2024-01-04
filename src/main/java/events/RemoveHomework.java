@@ -21,6 +21,7 @@ import com.mongodb.client.result.InsertOneResult;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.lt;
+import static events.Passwords2.token2;
 
 public class RemoveHomework extends ListenerAdapter {
     @Override
@@ -32,9 +33,10 @@ public class RemoveHomework extends ListenerAdapter {
             return;
         } else if (message.contains("Remove")) {
             event.getChannel().sendMessage(message + " , เสร็จแล้วนะครับ ยินดีด้วย เดี๋ยวผมลบออกให้ครับ").queue();
-            try (MongoClient mongoClient = MongoClients.create("uri")) {
+            try (MongoClient mongoClient = MongoClients.create(token2)) {
                 MongoDatabase database = mongoClient.getDatabase("Homework");
                 MongoCollection<Document> collection = database.getCollection("General Homework");
+
 
                 BasicDBObject document = new BasicDBObject();
                 // Delete All documents from collection Using blank BasicDBObject

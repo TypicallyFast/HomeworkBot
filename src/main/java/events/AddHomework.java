@@ -15,6 +15,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.InsertOneResult;
 
+import static events.Passwords2.token2;
+
 public class AddHomework extends ListenerAdapter {
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
@@ -25,11 +27,11 @@ public class AddHomework extends ListenerAdapter {
             return;
         } else if (message.contains("Add")) {
             event.getChannel().sendMessage(message + " , เดี๋ยวผมเพิ่มให้นะคร้าบบบ").queue();
-            try (MongoClient mongoClient = MongoClients.create(<uri>)) {
+            try (MongoClient mongoClient = MongoClients.create(token2)) {
                 MongoDatabase database = mongoClient.getDatabase("Homework");
                 MongoCollection<Document> collection = database.getCollection("General Homework");
                 try {
-                    // Inserts a sample document describing a movie into the collection
+                    // Inserts a sample document describing a movie into the collection (ใส่ sample doc เข้า collection)
                     InsertOneResult result = collection.insertOne(new Document()
                             .append("_id", new ObjectId())
                             .append("Homework", message));

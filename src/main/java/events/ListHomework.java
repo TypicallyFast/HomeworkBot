@@ -17,6 +17,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 import static com.mongodb.client.model.Filters.eq;
+import static events.Passwords2.token2;
 import static java.time.temporal.TemporalAdjusters.next;
 
 public class ListHomework extends ListenerAdapter {
@@ -30,15 +31,17 @@ public class ListHomework extends ListenerAdapter {
 
         } else if (message.contains("List")) {
             event.getChannel().sendMessage("นี่เลยครับการบ้านที่เหลืออยู่ อย่าลืมไปทำนะครับ!").queue();
-            try (MongoClient mongoClient = MongoClients.create("uri")) {
+            try (MongoClient mongoClient = MongoClients.create(token2)) {
                 MongoDatabase database = mongoClient.getDatabase("Homework");
                 MongoCollection<Document> collection = database.getCollection("General Homework");
-                // Creates instructions to project two document fields
+
+                // สั่งให้ project อะไรบ้าง ก็คือ ดึง Homework แต่ไม่ต้องดึง object id
                 Bson projectionFields = Projections.fields(
                         Projections.include("Homework"),
                         Projections.excludeId());
                 MongoCursor<Document> cursor = collection.find()
                         .projection(projectionFields).iterator();
+                // Replace คำพูดที่ไม่จำเป็นออก chain ไป
                 try {
                     while (cursor.hasNext()) {
                         event.getChannel().sendMessage(cursor.next().toString().replace("Document", "")
